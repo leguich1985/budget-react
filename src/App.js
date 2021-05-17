@@ -10,11 +10,11 @@ import ModalEdit from "./components/ModalEdit";
 import { useSelector } from "react-redux";
 
 function App() {
-  const entries = useSelector((state) => state.entries);
-  const [isOpen, setIsOpen] = useState(false);
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [isExpense, setIsExpense] = useState(false);
+  const entries = useSelector((state) => state.entries);
+  const [isOpen, setIsOpen] = useState(false);
   const [entryId, setEntryId] = useState();
   const [income, setIncome] = useState(0);
   const [expense, setExpense] = useState(0);
