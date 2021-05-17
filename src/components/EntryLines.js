@@ -1,17 +1,11 @@
 import React from "react";
 import EntryLine from "./EntryLine";
 
-function EntryLines({ entries, deleteEntry, editEntry }) {
+function EntryLines({ entries, editEntry }) {
   return (
     <>
       {entries.map(({ id, ...props }) => (
-        <EntryLine
-          {...props}
-          key={id}
-          deleteEntry={deleteEntry}
-          id={id}
-          editEntry={editEntry}
-        />
+        <EntryLine {...props} key={id} id={id} editEntry={editEntry} />
       ))}
     </>
   );
