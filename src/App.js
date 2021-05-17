@@ -7,6 +7,7 @@ import DisplayBalances from "./components/DisplayBalances";
 import { useEffect, useState } from "react";
 import EntryLines from "./components/EntryLines";
 import ModalEdit from "./components/ModalEdit";
+import { createStore, combineReducers } from "redux";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +29,53 @@ function App() {
       setEntries(newEntries);
       resetEntry();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
+
+  const entriesReducer = (state = initialEntries, action) => {
+    switch (action.type) {
+      case "ADD_ENTRY":
+        const newEntries = state.concat({ ...action.payload });
+        return newEntries;
+      case "REMOVE_ENTRY":
+        const newEntriesf = state.filter(
+          (entry) => entry.id !== action.payload.id
+        );
+        return newEntriesf;
+      default:
+        return state;
+    }
+  };
+  const combinedReducers = combineReducers({
+    entries: entriesReducer,
+  });
+  const store = createStore(combinedReducers);
+  store.subscribe(() => console.log("store : ", store.getState()));
+
+  const payload_add = {
+    id: 5,
+    description: "hello",
+    value: 100,
+    isExpense: true,
+  };
+
+  const addEntryRedux = (payload) => {
+    return {
+      type: "ADD_ENTRY",
+      payload,
+    };
+  };
+
+  const removeEntryRedux = (id) => {
+    return {
+      type: "REMOVE_ENTRY",
+      payload: { id },
+    };
+  };
+
+  store.dispatch(addEntryRedux(payload_add));
+
+  store.dispatch(removeEntryRedux(2));
 
   const deleteEntry = (id) => {
     const result = entries.filter((entry) => entry.id !== id);
@@ -69,7 +116,7 @@ function App() {
   useEffect(() => {
     let totalIncome = 0;
     let totalExpense = 0;
-    entries.map((entry) => {
+    entries.forEach((entry) => {
       if (entry.isExpense) {
         totalExpense += Number(entry.value);
       } else {
