@@ -1,4 +1,6 @@
 const types = {
+  POPULATE_ENTRIES: "POPULATE_ENTRIES",
+  GET_ENTRIES: "GET_ENTRIES",
   ADD_ENTRY: "ADD_ENTRY",
   REMOVE_ENTRY: "REMOVE_ENTRY",
   UPDATE_ENTRY: "UPDATE_ENTRY",
@@ -27,5 +29,18 @@ export const updateEntryRedux = (id, entry) => {
       id,
       entry,
     },
+  };
+};
+
+export const getAllEntries = () => {
+  return {
+    type: types.GET_ENTRIES,
+  };
+};
+
+export const populateEntries = (entries) => {
+  return {
+    type: types.POPULATE_ENTRIES,
+    payload: entries,
   };
 };
